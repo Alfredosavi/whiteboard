@@ -21,6 +21,7 @@ body {
 
 .colors {
   top: 10px;
+  left: 10px;
   position: fixed;
 }
 
