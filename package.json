@@ -5,5 +5,14 @@
   "main": "index.js",
   "repository": "https://github.com/Alfredosavi/whiteboard",
   "author": "Alfredo Savi",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "socket.io": "^3.1.1"
+  }
 }
