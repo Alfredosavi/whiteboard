@@ -1,0 +1,9 @@
+{
+  "name": "whiteboard",
+  "version": "1.0.0",
+  "description": "whiteboard using socket.io",
+  "main": "index.js",
+  "repository": "https://github.com/Alfredosavi/whiteboard",
+  "author": "Alfredo Savi",
+  "license": "MIT"
+}
