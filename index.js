@@ -22,7 +22,7 @@ function onConnection(socket) {
   setInterval(() => {
     drawings = [];
     io.emit("clearScreen", { clear: true });
-  }, 20000);
+  }, 40000);
 }
 
 io.on("connection", onConnection);
