@@ -28,8 +28,14 @@
 
   socket.on("drawing", onDrawingEvent);
 
-  window.addEventListener("resize", onResize, false);
+  window.addEventListener("resize", clearScreen, false);
   onResize();
+
+  socket.on("clearScreen", (clear) => {
+    if (clear) {
+      clearScreen();
+    }
+  });
 
   function drawLine(x0, y0, x1, y1, color, emit) {
     context.beginPath();
@@ -120,5 +126,9 @@
   function onResize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+  }
+
+  function clearScreen() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
   }
 })();
