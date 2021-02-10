@@ -28,6 +28,14 @@
 
   socket.on("drawing", onDrawingEvent);
 
+  socket.on("history_drawings", (drawings) => {
+    if (drawings.length) {
+      for (var i = 0; i < drawings.length; i++) {
+        onDrawingEvent(drawings[i]);
+      }
+    }
+  });
+
   window.addEventListener("resize", clearScreen, false);
   onResize();
 

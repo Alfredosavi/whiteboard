@@ -9,12 +9,20 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + "/public"));
 
+let drawings = [];
+
 function onConnection(socket) {
-  socket.on("drawing", (data) => socket.broadcast.emit("drawing", data));
+  socket.on("drawing", (data) => {
+    socket.broadcast.emit("drawing", data);
+    drawings.push(data);
+  });
+
+  socket.emit("history_drawings", drawings);
 
   setInterval(() => {
+    drawings = [];
     io.emit("clearScreen", { clear: true });
-  }, 30000);
+  }, 20000);
 }
 
 io.on("connection", onConnection);
