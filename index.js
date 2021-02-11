@@ -31,17 +31,19 @@ io.on("connection", (socket) => {
   });
 
   socket.on("user", (data) => {
-    console.log(data);
     user = data;
+
     users.push(user);
     socket.broadcast.emit("user", data);
   });
 
   socket.on("disconnect", (reason) => {
-    users.slice(
-      users.findIndex((elem) => elem.id === socket.id),
-      1
-    );
+    // users.slice(
+    //   users.findIndex((elem) => elem.id === socket.id),
+    //   1
+    // );
+
+    users = users.filter((elem) => elem.id !== socket.id);
     socket.broadcast.emit("history_users", users);
   });
 
