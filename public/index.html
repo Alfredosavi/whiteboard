@@ -40,6 +40,7 @@
                     type="text"
                     class="form-control"
                     id="nickname"
+                    placeholder="nickname"
                     required
                   />
                   <label class="form-label"></label>
@@ -57,17 +58,26 @@
       </div>
     </div>
 
-    <canvas class="whiteboard"></canvas>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col" id="dois">
+          <canvas class="whiteboard"></canvas>
 
-    <div class="colors">
-      <div class="color black"></div>
-      <div class="color red"></div>
-      <div class="color green"></div>
-      <div class="color blue"></div>
-      <div class="color yellow"></div>
-      <div class="color purple"></div>
+          <div class="colors">
+            <div class="color black"></div>
+            <div class="color red"></div>
+            <div class="color green"></div>
+            <div class="color blue"></div>
+            <div class="color yellow"></div>
+            <div class="color purple"></div>
+          </div>
+        </div>
+        <div class="col-1" id="menu">
+          <div class="d-flex justify-content-center pt-2">ONLINE</div>
+          <div id="list"></div>
+        </div>
+      </div>
     </div>
-
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -84,6 +94,5 @@
       crossorigin="anonymous"
     ></script>
     <script src="./main.js"></script>
-    <script src="./javascript.js"></script>
   </body>
 </html>

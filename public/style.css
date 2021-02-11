@@ -58,3 +58,8 @@ body {
 
   border-radius: 28px;
 }
+
+#menu {
+  background-color: aquamarine;
+  width: 130px;
+}
