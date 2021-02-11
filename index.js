@@ -1,15 +1,23 @@
 require("dotenv").config();
 
 const express = require("express");
+const path = require("path");
+
 const app = express();
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
 
-const port = process.env.PORT || 3000;
-
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "public"));
+app.engine("html", require("ejs").renderFile);
+app.set("view engine", "html");
 
 let drawings = [];
+let users = [];
+
+app.use("/", (req, res) => {
+  res.render("index.html");
+});
 
 function onConnection(socket) {
   socket.on("drawing", (data) => {
@@ -17,14 +25,21 @@ function onConnection(socket) {
     drawings.push(data);
   });
 
+  socket.on("user", (user) => {
+    users.push(user);
+    socket.broadcast.emit("new_user", users);
+  });
+
   socket.emit("history_drawings", drawings);
 
   setInterval(() => {
     drawings = [];
+    users = [];
+
     io.emit("clearScreen", { clear: true });
   }, process.env.TIME);
 }
 
 io.on("connection", onConnection);
 
-http.listen(port);
+server.listen(process.env.PORT || 3000);

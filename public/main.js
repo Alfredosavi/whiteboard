@@ -1,7 +1,7 @@
 "use strict";
+var socket = io();
 
 (function () {
-  var socket = io();
   var canvas = document.getElementsByClassName("whiteboard")[0];
   var colors = document.getElementsByClassName("color");
   var context = canvas.getContext("2d");
@@ -10,6 +10,10 @@
     color: "black",
   };
   var drawing = false;
+
+  socket.on("new_user", (data) => {
+    console.log(data);
+  });
 
   canvas.addEventListener("mousedown", onMouseDown, false);
   canvas.addEventListener("mouseup", onMouseUp, false);
