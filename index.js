@@ -19,18 +19,20 @@ app.use("/", (req, res) => {
   res.render("index.html");
 });
 
-function onConnection(socket) {
+io.on("connection", (socket) => {
   socket.on("drawing", (data) => {
     socket.broadcast.emit("drawing", data);
     drawings.push(data);
   });
 
-  socket.on("user", (user) => {
-    users.push(user);
-    socket.broadcast.emit("new_user", users);
+  socket.on("user", (data) => {
+    users.push(data);
+    console.log("jisof");
+    socket.broadcast.emit("user", data);
   });
 
   socket.emit("history_drawings", drawings);
+  socket.emit("history_users", users);
 
   setInterval(() => {
     drawings = [];
@@ -38,8 +40,6 @@ function onConnection(socket) {
 
     io.emit("clearScreen", { clear: true });
   }, process.env.TIME);
-}
-
-io.on("connection", onConnection);
+});
 
 server.listen(process.env.PORT || 3000);
