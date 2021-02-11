@@ -43,6 +43,8 @@ var socket = io();
   });
 
   socket.on("history_users", (users) => {
+    jQuery("#list div").html("");
+
     if (users.length) {
       for (var i = 0; i < users.length; i++) {
         renderOnline(users[i]);
@@ -82,11 +84,11 @@ var socket = io();
       $("#modal_nickname").modal("hide");
     });
 
-    socket.emit("user", nick);
+    socket.emit("user", { id: socket.id, nick });
   });
 
-  function renderOnline(user) {
-    $("#list").append("<div>" + user + "</div>");
+  function renderOnline({ nick }) {
+    $("#list").append("<div>" + nick + "</div>");
   }
 
   window.addEventListener("resize", clearScreen, false);

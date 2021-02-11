@@ -15,6 +15,11 @@ app.set("view engine", "html");
 let drawings = [];
 let users = [];
 
+let user = {
+  id: "",
+  nick: "",
+};
+
 app.use("/", (req, res) => {
   res.render("index.html");
 });
@@ -26,9 +31,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("user", (data) => {
-    users.push(data);
-    console.log("jisof");
+    console.log(data);
+    user = data;
+    users.push(user);
     socket.broadcast.emit("user", data);
+  });
+
+  socket.on("disconnect", (reason) => {
+    users.slice(
+      users.findIndex((elem) => elem.id === socket.id),
+      1
+    );
+    socket.broadcast.emit("history_users", users);
   });
 
   socket.emit("history_drawings", drawings);
