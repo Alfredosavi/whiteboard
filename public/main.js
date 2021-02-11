@@ -43,7 +43,7 @@ var socket = io();
   });
 
   socket.on("history_users", (users) => {
-    jQuery("#list div").html("");
+    jQuery("#list div").remove();
 
     if (users.length) {
       for (var i = 0; i < users.length; i++) {
@@ -88,7 +88,7 @@ var socket = io();
   });
 
   function renderOnline({ nick }) {
-    $("#list").append("<div>" + nick + "</div>");
+    $("#list").append(`<div class='nicks'>${nick}</div>`);
   }
 
   window.addEventListener("resize", clearScreen, false);
