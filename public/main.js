@@ -2,6 +2,16 @@
 var socket = io();
 
 (function () {
+  $(window).on("load", function () {
+    $(document).ready(function () {
+      $("#modal_nickname").modal({
+        keyboard: false,
+        focus: true,
+        backdrop: "static",
+      });
+    });
+  });
+
   var canvas = document.getElementsByClassName("whiteboard")[0];
   var colors = document.getElementsByClassName("color");
   var context = canvas.getContext("2d");
@@ -10,10 +20,6 @@ var socket = io();
     color: "black",
   };
   var drawing = false;
-
-  socket.on("new_user", (data) => {
-    console.log(data);
-  });
 
   canvas.addEventListener("mousedown", onMouseDown, false);
   canvas.addEventListener("mouseup", onMouseUp, false);
@@ -32,6 +38,18 @@ var socket = io();
 
   socket.on("drawing", onDrawingEvent);
 
+  socket.on("user", (data) => {
+    renderOnline(data);
+  });
+
+  socket.on("history_users", (users) => {
+    if (users.length) {
+      for (var i = 0; i < users.length; i++) {
+        renderOnline(users[i]);
+      }
+    }
+  });
+
   socket.on("history_drawings", (drawings) => {
     if (drawings.length) {
       for (var i = 0; i < drawings.length; i++) {
@@ -40,14 +58,39 @@ var socket = io();
     }
   });
 
-  window.addEventListener("resize", clearScreen, false);
-  onResize();
-
   socket.on("clearScreen", (clear) => {
     if (clear) {
       clearScreen();
     }
   });
+
+  document.getElementById("submit").addEventListener("click", function (event) {
+    event.preventDefault();
+    const form = document.querySelector(".needs-validation");
+    const nick = document.getElementById("nickname").value;
+
+    if (!form.checkValidity()) {
+      event.stopPropagation();
+    }
+    form.classList.add("was-validated");
+
+    if (!nick) {
+      return;
+    }
+
+    $(document).ready(function () {
+      $("#modal_nickname").modal("hide");
+    });
+
+    socket.emit("user", nick);
+  });
+
+  function renderOnline(user) {
+    $("#list").append("<div>" + user + "</div>");
+  }
+
+  window.addEventListener("resize", clearScreen, false);
+  onResize();
 
   function drawLine(x0, y0, x1, y1, color, emit) {
     context.beginPath();
